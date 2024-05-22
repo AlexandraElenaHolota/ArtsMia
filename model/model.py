@@ -12,6 +12,33 @@ class Model:
         for v in self._artObjectList:
             self._idMap[v.object_id] = v
 
+    def getConnessa(self, v0int):
+        v0 = self._idMap[v0int]
+
+        # Modo1: successori di v0 in DFS
+        successors = nx.dfs_successors(self._grafo, v0) # dizionario
+        allSucc = []
+        for v in successors.values():
+            allSucc.extend(v)
+
+        print(f"Metodo 1 (succ): {len(allSucc)}")
+
+        # Modo2: predecessori di v0 in DFS
+        predecessors = nx.dfs_predecessors(self._grafo, v0)
+        print(f"Metodo 2 (pred): {len(predecessors.values())}")
+
+        # Modo3: conto i nodi dell'albero di visita
+        tree = nx.dfs_tree(self._grafo, v0)
+        print(f"Metodo 3 (tree): {len(tree.nodes)}")
+
+        # Modo4: node_connected_component
+        connComp = nx.node_connected_component(self._grafo, v0)
+        print(f"Metodo 4 (connComp): {len(connComp)}")
+
+        return len(connComp)
+
+
+
     def creaGrafo(self):
         self.addEdges()
 
