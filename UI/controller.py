@@ -9,8 +9,27 @@ class Controller:
         self._model = model
 
     def handleAnalizzaOggetti(self, e):
-        pass
+        self._model.creaGrafo()
+        self._view._txt_result.controls.append(ft.Text('Grafo correttamente creato'))
+        self._view._txt_result.controls.append(ft.Text(f"Il Grafo contiene {self._model.getNumNodes()} nodi "))
+        self._view._txt_result.controls.append(ft.Text(f"Il Grafo contiene {self._model.getNumEdges()} archi "))
+        self._view.update_page()
 
     def handleCompConnessa(self,e):
-        pass
+        idAdded = self._view._txtIdOggetto.value
+        try:
+            intId = int(idAdded)
+        except ValueError:
+            self._view._txt_result.controls.clear()
+            self._view._txt_result.controls.append(ft.Text(f"Il valore inserito non è un intero"))
+            self._view.update_page()
+
+        if self._model.checkExistece(intId):
+            self._view._txt_result.controls.append(ft.Text(f"L'oggetto {intId} è presente nel grafo"))
+        else:
+            self._view._txt_result.controls.append(ft.Text(f"L'oggetto {intId} NON è presente nel grafo"))
+
+        self._view.update_page()
+
+
 
